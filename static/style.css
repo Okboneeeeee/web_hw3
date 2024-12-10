@@ -1,0 +1,135 @@
+/* 全域樣式 */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+    background-color: #ffffff;
+}
+
+/* 主容器 */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+}
+
+/* 左側日曆區域 */
+.calendar {
+    width: 60%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calendar h2 {
+    text-align: center;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* 右側事件區域 */
+.tasks {
+    width: 40%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.tasks h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 隱藏表單的樣式 */
+.task-form {
+    display: none;
+}
+
+.show-form .task-form {
+    display: block;
+}
+
+
+
+
+.progress-container {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    height: 20px;
+    position: relative;
+    margin-top: 5px;
+}
+
+.progress-bar {
+    background-color: #4caf50;
+    height: 100%;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    line-height: 20px;
+}
+
+.progress-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.task-item a {
+    flex: 1;
+}
+
+.progress-container {
+    flex: 1;
+    margin-left: 10px;
+}
