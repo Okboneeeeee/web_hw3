@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Task Manager</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calendar">
+            <div class="calendar-header">
+                <button onclick="changeMonth(-1)">&#60;</button>
+                <h2 id="month-year"></h2>
+                <button onclick="changeMonth(1)">&#62;</button>
+            </div>
+            <table id="calendar-table"></table>
+        </div>
+        <div class="tasks">
+            <h3 id="selected-date">選擇日期</h3>
+            <a href="/task"><button id="add-event-button">新增事件</button></a>
+        </div>
+    </div>
+    <script>
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        const calendarTable = document.getElementById("calendar-table");
+        const monthYear = document.getElementById("month-year");
+        const selectedDate = document.getElementById("selected-date");
+
+        function updateCalendar() {
+            calendarTable.innerHTML = "";
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const startDay = firstDay.getDay();
+            let row = calendarTable.insertRow();
+            for (let i = 0; i < startDay; i++) {
+                row.insertCell();
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                if (row.cells.length === 7) {
+                    row = calendarTable.insertRow();
+                }
+                const cell = row.insertCell();
+                cell.textContent = day;
+
+
+                //點擊日期跳轉到第三頁
+                cell.onclick = () => selectDateAndRedirect(day);
+            }
+            monthYear.textContent = `${firstDay.toLocaleString("default", {
+                month: "long",
+            })} ${currentYear}`;
+        }
+
+        function selectDateAndRedirect(day) {
+            // 創建日期物件
+            const selected = new Date(currentYear, currentMonth, day);
+        
+            // 提取本地時間的年、月、日
+            const year = selected.getFullYear();
+            const month = String(selected.getMonth() + 1).padStart(2, "0"); // 月份從 0 開始
+            const date = String(selected.getDate()).padStart(2, "0");
+        
+            // 組合成 YYYY-MM-DD 格式
+            const formattedDate = `${year}-${month}-${date}`;
+        
+            // 更新顯示的日期
+            selectedDate.textContent = `選擇的日期: ${formattedDate}`;
+       
+            // 跳轉到第三頁，包含選擇的日期作為查詢參數
+            window.location.href = `/tasks_on_date?date=${formattedDate}`;
+        
+       
+        }
+        
+        
+        
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        }
+
+        updateCalendar();
+    </script>
+</body>
+</html>

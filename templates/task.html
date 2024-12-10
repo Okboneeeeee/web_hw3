@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增事件</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 左側：日曆區域 -->
+        <div class="calendar">
+            <div class="calendar-header">
+                <button onclick="changeMonth(-1)">&#60;</button>
+                <h2 id="month-year"></h2>
+                <button onclick="changeMonth(1)">&#62;</button>
+            </div>
+            <table class="calendar-table" id="calendar-table">
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 右側：新增事件區域 -->
+        <div class="tasks">
+            <h2>新增事件</h2>
+            <form method="post">
+                <label for="date">日期:</label>
+                <input type="date" id="date" name="date" required><br><br>
+                <label for="task">任務:</label>
+                <input type="text" id="task" name="task" required><br><br>
+                <label for="location">地點:</label>
+                <input type="text" id="location" name="location" required><br><br>
+                <label for="priorty">優先度:</label>
+                <input type="text" id="priorty" name="priorty" required><br><br>
+                <label for="detail_1">子任務 1:</label>
+                <input type="text" id="detail_1" name="detail_1"><br><br>
+                <label for="detail_2">子任務 2:</label>
+                <input type="text" id="detail_2" name="detail_2"><br><br>
+                <label for="detail_3">子任務 3:</label>
+                <input type="text" id="detail_3" name="detail_3"><br><br>
+                <button type="submit">儲存任務</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/calendar.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期任務列表</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- 左側：日曆區域 -->
+        <div class="calendar">
+            <div class="calendar-header">
+                <button onclick="changeMonth(-1)">&#60;</button>
+                <h2 id="month-year"></h2>
+                <button onclick="changeMonth(1)">&#62;</button>
+            </div>
+            <table class="calendar-table" id="calendar-table">
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 右側：任務區域 -->
+        <div class="tasks">
+            <h2>日期: {{ selected_date }}</h2>
+            <h3>任務列表</h3>
+            {% if tasks %}
+                <ul>
+                    {% for task in tasks %}
+                        <li>
+                            <a href="{{ url_for('task_details', task_id=task['ID']) }}">{{ task['Task'] }}</a>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 50%">
+                                    <span class="progress-text">{{ task['progress'] }}%</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>該日期沒有任務。</p>
+            {% endif %}
+            <a href="/">返回首頁</a>
+        </div>
+    </div>
+
+    <!-- 引入月曆腳本 -->
+    <script src="/static/calendar.js"></script>
+    <script>
+        // 初始化月曆，與其他頁面保持一致
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        const calendarTable = document.getElementById("calendar-table");
+        const monthYear = document.getElementById("month-year");
+
+        function updateCalendar() {
+            calendarTable.innerHTML = "";
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const startDay = firstDay.getDay();
+            let row = calendarTable.insertRow();
+            for (let i = 0; i < startDay; i++) {
+                row.insertCell();
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                if (row.cells.length === 7) {
+                    row = calendarTable.insertRow();
+                }
+                const cell = row.insertCell();
+                cell.textContent = day;
+                cell.onclick = () => selectDate(day);
+            }
+            monthYear.textContent = `${firstDay.toLocaleString("default", { month: "long" })} ${currentYear}`;
+
+        }
+        
+        // 點擊日期時跳轉並更新 URL（功能可擴展）
+        function selectDate(day)  {
+            const selected = new Date(currentYear, currentMonth, day);
+            const year = selected.getFullYear();
+            const month = String(selected.getMonth() + 1).padStart(2, "0");
+            const date = String(selected.getDate()).padStart(2, "0");
+            const formattedDate = `${year}-${month}-${date}`;
+            console.log(`/tasks_on_date?date=${formattedDate}`);
+
+            
+            // 更新網址
+            window.location.href = `/tasks_on_date?date=${formattedDate}`;
+        };
+         
+        
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        }
+
+        updateCalendar();
+    </script>
+</body>
+</html>
+
